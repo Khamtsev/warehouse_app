@@ -24,7 +24,7 @@ cd warehouse_app
 docker-compose up --build -d
 ```
 
-Докементация проекта будет доступна по адресу (http://localhost:8000/docs).
+Докементация проекта будет доступна по адресу http://localhost:8000/docs
 
 
 Автор: Денис Хамцев, [GitHub](https://github.com/Khamtsev).
