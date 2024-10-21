@@ -7,16 +7,16 @@ from .schemas import Product, ProductCreate, ProductUpdate
 
 router = APIRouter(
     prefix='/products',
-    tags=['Products']
+    tags=['Товары']
 )
 
 
-@router.post('', response_model=Product)
+@router.post('', response_model=Product, summary="Добавить товар")
 def create_product(product: ProductCreate, db: Session = Depends(get_db)):
     return dao.create_product(db, product)
 
 
-@router.get('', response_model=list[Product])
+@router.get('', response_model=list[Product], summary="Все товары")
 def get_products(
     skip: int = 0, limit: int = 10,
     db: Session = Depends(get_db)
@@ -24,7 +24,8 @@ def get_products(
     return dao.get_products(db, skip=skip, limit=limit)
 
 
-@router.get('/{product_id}', response_model=Product)
+@router.get('/{product_id}', response_model=Product,
+            summary="Информация о товаре по id")
 def get_product(product_id: int, db: Session = Depends(get_db)):
     db_product = dao.get_product(db, product_id)
     if db_product is None:
@@ -35,7 +36,8 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
     return db_product
 
 
-@router.put('/{product_id}', response_model=Product)
+@router.put('/{product_id}', response_model=Product,
+            summary="Обновить товар по id")
 def update_product(
     product_id: int, product: ProductUpdate,
     db: Session = Depends(get_db)
@@ -43,6 +45,7 @@ def update_product(
     return dao.update_product(db, product_id, product)
 
 
-@router.delete('/{product_id}', response_model=Product)
+@router.delete('/{product_id}', response_model=Product,
+               summary="Удалить товар по id")
 def delete_product(product_id: int, db: Session = Depends(get_db)):
     return dao.delete_product(db, product_id)

@@ -7,21 +7,22 @@ from .schemas import Order, OrderCreate
 
 router = APIRouter(
     prefix='/orders',
-    tags=['Orders']
+    tags=['Заказы']
 )
 
 
-@router.post('', response_model=Order)
+@router.post('', response_model=Order, summary="Создать заказ")
 def create_order(order: OrderCreate, db: Session = Depends(get_db)):
     return dao.create_order(db, order)
 
 
-@router.get('', response_model=list[Order])
+@router.get('', response_model=list[Order], summary="Все заказы")
 def get_orders(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return dao.get_orders(db, skip=skip, limit=limit)
 
 
-@router.get('/{order_id}', response_model=Order)
+@router.get('/{order_id}', response_model=Order,
+            summary="Информация о заказе по id")
 def get_order(order_id: int, db: Session = Depends(get_db)):
     db_order = dao.get_order(db, order_id)
     if db_order is None:
@@ -32,7 +33,8 @@ def get_order(order_id: int, db: Session = Depends(get_db)):
     return db_order
 
 
-@router.patch('/{order_id}/status', response_model=Order)
+@router.patch('/{order_id}/status', response_model=Order,
+              summary="Изменить статус заказа")
 def update_order_status(
     order_id: int, status: str,
     db: Session = Depends(get_db)
